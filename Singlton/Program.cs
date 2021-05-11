@@ -6,8 +6,10 @@ namespace Singlton
     {
         static void Main(string[] args)
         {
-            Singleton single = new Singleton();
-            Singleton single2 = new Singleton();
+            Singleton single = Singleton.Instance(12,"stub");
+            Singleton single2 = Singleton.Instance(123,"no stub");
+            if (single == single2)
+                Console.WriteLine($"Singleton {single.GetHashCode()} == {single2.GetHashCode()}");
         }
     }
 }
