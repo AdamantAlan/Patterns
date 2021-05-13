@@ -1,45 +1,40 @@
 ﻿using System;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+
+                /////////////////////////////////////////////////////////////////////////////////////
+                // Не делал адаптацию под разные дни, может выдать исключение, просто для примера////
+                /////////////////////////////////////////////////////////////////////////////////////
+                
+
 
 namespace adapter
 {
     class Program
     {
-        static void Main(string[] args)
+
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Driver d = new Driver();
-            d.Travel(new AdapterToTransport(new Horse()));
-            d.Travel(new Auto());
+            //Driver d = new();
+            //d.Travel(new AdapterToTransport(new Horse()));
+            //d.Travel(new Auto());
+            IWeather w = new Weather();
+            Console.WriteLine($"Погода:{ await w.GetWeatherAsync()}");
+            IWind ww = new Wind();
+            Console.WriteLine( $"Ветер:{await ww.GetWindAsync()}");
+            Console.WriteLine($"Погода:{await w.GetWeatherAsync()} Ветер:{await new adapterWindToWeather(ww).GetWeatherAsync()}");
         }
-    }
-    interface ITransport
-    {
-        void Drive();
-    }
-    interface IAnimal
-    {
-        void Run();
-    }
-    class Auto : ITransport
-    {
-        public void Drive() => Console.WriteLine("Машина едет");
-    }
-    class Horse : IAnimal
-    {
-        public void Run() => Console.WriteLine("Лошадь бежит");
-    }
-    class Driver
-    {
-        public void Travel(ITransport transport) => transport.Drive();
-    }
-    //adapter
-    class AdapterToTransport : ITransport
-    {
-        private readonly IAnimal _h;
-        public AdapterToTransport(IAnimal h) => _h = h;
-        public void Drive()
+
+        class adapterWindToWeather:IWeather
         {
-            _h.Run();
+            private readonly IWind _wind;
+            public adapterWindToWeather(IWind wind) => _wind = wind;
+
+            public async Task<string> GetWeatherAsync() => await  _wind.GetWindAsync();
         }
+
     }
+   
 }

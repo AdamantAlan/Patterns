@@ -64,13 +64,13 @@ namespace Decorator
             protected readonly DefaultRole defRole;
             abstract public void StartCmd();
             abstract public void StartExplorer();
-            public override void StartCalc() => defRole.StartCalc();
-            public override void StartNotepad() => defRole.StartNotepad();
             public DecoratorDefaultRoleToSuperUser(DefaultRole u) => defRole = u;
         }
         class SuperUser:DecoratorDefaultRoleToSuperUser
         {
             public SuperUser(DefaultRole u):base(u) { }
+            public override void StartCalc() => defRole.StartCalc();
+            public override void StartNotepad() => defRole.StartNotepad();
             public override void StartCmd()
             {
                 Process.Start("cmd");
@@ -97,5 +97,5 @@ namespace Decorator
         }
         static SuperUser SuperUserUpgradeHandle(object sender)=> new(sender as DefaultRole);
         static User SuperUserDowngradeHandle() => new();
-    }
+     }
 }
