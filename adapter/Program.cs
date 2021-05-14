@@ -20,11 +20,11 @@ namespace adapter
             //Driver d = new();
             //d.Travel(new AdapterToTransport(new Horse()));
             //d.Travel(new Auto());
-            IWeather w = new Weather();
-            Console.WriteLine($"Погода:{ await w.GetWeatherAsync()}");
-            IWind ww = new Wind();
-            Console.WriteLine( $"Ветер:{await ww.GetWindAsync()}");
-            Console.WriteLine($"Погода:{await w.GetWeatherAsync()} Ветер:{await new adapterWindToWeather(ww).GetWeatherAsync()}");
+            IWeather weather = new Weather();
+            Console.WriteLine($"Погода:{ await weather.GetWeatherAsync()}");
+            IWind wind = new Wind();
+            Console.WriteLine( $"Ветер:{await wind.GetWindAsync()}");
+            Console.WriteLine($"Погода:{await weather.GetWeatherAsync()} Ветер:{await new adapterWindToWeather(wind).GetWeatherAsync()}");
         }
 
         class adapterWindToWeather:IWeather
